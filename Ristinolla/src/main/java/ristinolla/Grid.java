@@ -37,6 +37,12 @@ public class Grid {
         return this.grid;
     }
 
+    public void setGridnum(int x, int y, int player) {
+        if (x <= this.n && y <= this.n && x >= 0 && y >= 0 && (player == 0 | player == 1)) {
+            this.grid[x][y] = player;
+        }
+    }
+
     public boolean isPlaceFree(int x, int y) {
         if (x <= this.n && y <= this.n) {
             return this.grid[x][y] == -1;
