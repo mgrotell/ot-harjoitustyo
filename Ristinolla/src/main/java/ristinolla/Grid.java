@@ -5,27 +5,43 @@
  */
 package ristinolla;
 
+import java.util.ArrayList;
+import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+
 /**
  *
  * @author miklas
  */
 public class Grid {
 
-    int n;
-    int[][] grid;
+    private int n;
+    private int gameState = 0;
+    private String turn;
+    private GridPane grid;
+    private Button[][] tiles;
 
     public Grid(int n) {
-        this.n = n < 2 ? 2 : n < 200 ? n : 200;
-        grid = new int[this.n][this.n];
-        int x = 0;
-        while (x < this.n) {
+        grid = new GridPane();
+        this.n = n;
+        this.gameState = 0;
+        this.turn = "O";
+        int z = 1;
+        tiles = new Button[n + 1][n + 1];
 
-            int y = 0;
-            while (y < this.n) {
-                this.grid[x][y] = -1;
-                y++;
+        while (z <= n) {
+
+            int j = 1;
+
+            while (j <= n) {
+                tiles[z][j] = new Button(" ");
+                grid.add(tiles[z][j], z, j);
+                tiles[z][j].setFont(Font.font("Monospaced", 400 / n));
+                j++;
             }
-            x++;
+
+            z++;
         }
     }
 
@@ -33,20 +49,113 @@ public class Grid {
         return this.n;
     }
 
-    public int[][] getGrid() {
+    public int getGameState() {
+        return this.gameState;
+    }
+
+    public String checkWinner() {
+
+        int x = 1;
+        int y;
+        String xp = "";
+        String op = "";
+        String kon = "";
+
+        while (x <= this.n) {
+            xp += "X";
+            op += "O";
+            x++;
+        }
+        x = 1;
+
+        while (x <= this.n) {
+            y = 1;
+            while (y <= this.n) {
+                kon += this.tiles[x][y].getText();
+                String t = getStrafes(x, y);
+                if (t.contains(op)) {
+                    return "O";
+                }
+                if (t.contains(xp)) {
+                    return "X";
+                }
+                y++;
+            }
+            x++;
+        }
+
+        x = 1;
+        y = 1;
+        while (y <= this.n) {
+            kon += this.tiles[x][y].getText();
+            x++;
+            if (x > this.n) {
+                x = 1;
+                y++;
+            }
+        }
+
+        if (kon.contains(xp)) {
+            this.gameState = 1;
+            return "X";
+        }
+
+        if (kon.contains(op)) {
+            this.gameState = 1;
+            return "O";
+        }
+        return "";
+    }
+
+    private String getStrafes(int x, int y) {
+
+        int j = x;
+        int k = y;
+        String kona = "";
+        while (j <= this.n && k <= this.n) {
+            kona += this.tiles[j][k].getText();
+            j++;
+            k++;
+        }
+        kona += " ";
+        j = x;
+        k = y;
+        while (j >= 1 && k >= 1) {
+            kona += this.tiles[j][k].getText();
+            j--;
+            k--;
+        }
+        kona += " ";
+        j = x;
+        k = y;
+        while (j <= this.n && k >= 1) {
+            kona += this.tiles[j][k].getText();
+            j++;
+            k--;
+        }
+        kona += " ";
+        j = x;
+        k = y;
+        while (j >= 1 && k <= this.n) {
+            kona += this.tiles[j][k].getText();
+            j--;
+            k++;
+        }
+        return kona;
+
+    }
+
+    public String getTurn() {
+        this.turn = this.turn.equals("O") ? "X" : "O";
+        return this.turn;
+    }
+
+    public Button[][] getTiles() {
+        return this.tiles;
+    }
+
+    public GridPane getGrid() {
         return this.grid;
     }
 
-    public void setGridnum(int x, int y, int player) {
-        if (x <= this.n && y <= this.n && x >= 0 && y >= 0 && (player == 0 | player == 1)) {
-            this.grid[x][y] = player;
-        }
-    }
-
-    public boolean isPlaceFree(int x, int y) {
-        if (x <= this.n && y <= this.n) {
-            return this.grid[x][y] == -1;
-        }
-        return false;
-    }
 }
