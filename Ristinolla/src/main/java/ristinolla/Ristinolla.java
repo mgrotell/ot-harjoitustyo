@@ -5,18 +5,12 @@
  */
 package ristinolla;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import javafx.application.Application;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Font;
 
 /**
  *
@@ -26,12 +20,10 @@ public class Ristinolla extends Application {
 
     private String vuoro = "Vuoro: X";
     private Label info;
-    private int alku = 0;
-    private int numero = 0;
 
     @Override
     public void start(Stage arg0) throws Exception {
-        Grid grid = new Grid(70);
+        Grid grid = new Grid(10);
         BorderPane pane = new BorderPane();
         info = new Label("Vuoro: X");
         pane.setTop(info);
@@ -53,10 +45,12 @@ public class Ristinolla extends Application {
                     if (b.getText().equals(" ") && grid.getGameState() == 0) {
                         String vuoro = grid.getTurn();
                         b.setText(vuoro);
+                        info.setText("Vuoro: " + (vuoro.equals("X") ? "O" : "X"));
                     }
                     String voittaja = grid.checkWinner();
                     if(!voittaja.equals("")) {
                         info.setText("Voittaja: " + voittaja);
+                        grid.setGameToWinState();
                     }
                 });
                 y++;

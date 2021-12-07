@@ -23,21 +23,21 @@ public class Grid {
     private Button[][] tiles;
 
     public Grid(int n) {
+        this.n = n < 3 ? 3 : n > 100 ? 100 : n;
         grid = new GridPane();
-        this.n = n;
         this.gameState = 0;
         this.turn = "O";
         int z = 1;
-        tiles = new Button[n + 1][n + 1];
+        tiles = new Button[this.n + 1][this.n + 1];
 
-        while (z <= n) {
+        while (z <= this.n) {
 
             int j = 1;
 
-            while (j <= n) {
+            while (j <= this.n) {
                 tiles[z][j] = new Button(" ");
                 grid.add(tiles[z][j], z, j);
-                tiles[z][j].setFont(Font.font("Monospaced", 400 / n));
+                tiles[z][j].setFont(Font.font("Monospaced", 400 / this.n));
                 j++;
             }
 
@@ -96,12 +96,10 @@ public class Grid {
         }
 
         if (kon.contains(xp)) {
-            this.gameState = 1;
             return "X";
         }
 
         if (kon.contains(op)) {
-            this.gameState = 1;
             return "O";
         }
         return "";
@@ -152,6 +150,10 @@ public class Grid {
 
     public Button[][] getTiles() {
         return this.tiles;
+    }
+
+    public void setGameToWinState() {
+        this.gameState = 1;
     }
 
     public GridPane getGrid() {
