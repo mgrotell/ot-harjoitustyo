@@ -8,3 +8,10 @@ Pelilaudan kokoa voi nyt säätää. Pelaajien vuorot indikoidaan ja kerrotaan k
 ## Dokumentaatio
 [Työaikakirjanpito](https://github.com/msiivone/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)  
 [Vaatimusmäärittely](https://github.com/msiivone/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
+
+##  14.12
+- Testit rikkoivat ohjelman toiminnan. Ohjelmaa pystyy ajamaan ilman testejä mutta ei testien kanssa.
+
+# Komentorivi
+- Ohjelma voidaan käynnistää komennolla   
+mvn compile exec:java -Dexec.mainClass=ristinolla.Main
